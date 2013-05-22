@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  involvement: 
+  role: 
+  region: 
+  description: MyText
+
+two:
+  involvement: 
+  role: 
+  region: 
+  description: MyText
