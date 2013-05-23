@@ -3,7 +3,8 @@ class UsersController < ApplicationController
     @users = User.includes(:involvements).all
     @user = User.new
     @involvement = @user.involvements.build
-    @involvement.responsibilities.build
+    @responsibility = @involvement.responsibilities.build
+    @region = Region.find(2)
   end
 
   def create

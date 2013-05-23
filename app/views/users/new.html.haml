@@ -1,28 +1,31 @@
 %h1 Users#new
+= @region.name
 = form_for @user do |f|
   = f.label :first_name
-  = f.text_field :first_name, :value => Time.now
+  = f.text_field :first_name, :value => "fab"
   = f.label :last_name
-  = f.text_field :last_name, :value => Time.now
+  = f.text_field :last_name, :value => "sidney"
   = f.label :email
-  = f.text_field :email, :value => Time.now
+  = f.text_field :email, :value => "fab@sidney.com"
   = link_to "Add a new involvement", '#', :id => 'new_involvement'
-  %p#involvement_template
-    Involvements
-    = f.fields_for :involvements, :child_index => "INVOLVEMENTUNIQ" do |involvement_field|
-      = involvement_field.label :start_date
-      = involvement_field.text_field :start_date, :value => Time.now
-      = involvement_field.label :end_date
-      = involvement_field.text_field :end_date, :value => Time.now
-      = link_to "Add a new responsibility", '#', :id => 'new_responsibility'
-      %p#responsibility_template
-        Responsibilities
-        = involvement_field.fields_for :responsibilities, :child_index => "RESPUNIQ" do |resp_field|
-          = resp_field.label :description
-          = resp_field.text_field :description, :value => Time.now.to_i.to_s + "description"
+  .target
+    .INVOLVEMENTUNIQ
+      %p#INVOLVEMENTUNIQ
+        Involvements
+        = f.fields_for :involvements, :child_index => "INVOLVEMENTUNIQ" do |involvement_field|
+          = involvement_field.label :start_date
+          = involvement_field.text_field :start_date, :value => Time.now
+          = involvement_field.label :end_date
+          = involvement_field.text_field :end_date, :value => Time.now
+          = link_to "Add a new responsibility", '#', :id => 'new_responsibility'
+          %p#RESPUNIQ 
+            Responsibilities
+            = involvement_field.fields_for :responsibilities, :child_index => "RESPUNIQ" do |resp_field|
+              = resp_field.label :description
+              = resp_field.text_field :description, :value => Time.now.to_i.to_s + "description"
+              = resp_field.text_field :region_id, :value => @region.id
 
   #submit_button= f.submit "Create User"
-
 
 - @users.each do |u|
   %p
@@ -31,16 +34,19 @@
     = u.last_name
     = u.email
   %p
-    involvements
     - unless u.involvements.empty?
       - u.involvements.each_with_index do |inv, index|
         %p
+          involvements
           = index + 1
           = inv.start_date
           = inv.end_date
         %p 
-          responsibilities
           - unless u.involvements.empty?
             - inv.responsibilities.each_with_index do |resp, resp_index|
-              = resp_index + 1
-              = resp.description
+              %p
+                responsibilities
+                = resp_index + 1
+                = resp.description
+                -if resp.region
+                  = resp.region.name
